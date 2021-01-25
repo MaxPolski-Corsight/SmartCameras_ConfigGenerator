@@ -1,0 +1,1 @@
+# SmartCameras_ConfigGenerator
