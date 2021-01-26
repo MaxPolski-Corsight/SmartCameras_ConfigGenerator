@@ -1,1 +1,1 @@
-# SmartCameras_ConfigGenerator
+<h1 align="center">SmartCameras Config Generator Tool</h1>
