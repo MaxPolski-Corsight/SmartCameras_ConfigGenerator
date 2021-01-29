@@ -1,10 +1,10 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
 import Paper from '@material-ui/core/Paper';
 import { makeStyles } from '@material-ui/core/styles';
-import InitSettings from './comonets/InitSettings';
-import ConfigurationList from './comonets/ConfigurationList';
-import SetUpServices from './comonets/SetUpServices';
-import Summary from './comonets/Summary';
+import InitSettings from './components/InitSettings';
+import ConfigurationList from './components/ConfigurationList';
+import SetUpServices from './components/SetUpServices';
+import Summary from './components/Summary';
 import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({

@@ -63,6 +63,7 @@ const configurationChanges = ( state = configurationInitState, action) => {
         configurationName : action.payload,
       };
     case 'ADD_CHANGES':
+      console.log(action);
       const temp_changes = _.set(state.configurationChanges,action.payload.path,action.payload.value)
       return{
         ...state,

@@ -7,7 +7,7 @@ const Summary = (props) => {
         '_id' : props.configurationName,
         'sc' : props.configuration,
     }
-  const DataFromConfig = JSON.stringify(FinalConfig, null, 5);
+  const DataFromConfig = JSON.stringify(FinalConfig, null, 4);
   return (
     <div>
       <CopyBlock
