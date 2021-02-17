@@ -49,14 +49,12 @@ const useStyles = makeStyles((theme) => ({
 
 function App(props) {
   const classes = useStyles();
+  console.log(`props sysInfo -> ${JSON.stringify(props.sysInfo)}`);
   return (
     <div className="App">
       <CssBaseline />
       <Paper className={classes.paper}>
         <InitSettings/>
-        <p></p>
-
-        {JSON.stringify(props.sysInfo)}
       </Paper>
       <Paper className={classes.paper} >
         <ConfigurationList/>

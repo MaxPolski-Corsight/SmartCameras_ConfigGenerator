@@ -1,4 +1,3 @@
-import { useState, version } from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -7,8 +6,6 @@ import Radio from "@material-ui/core/Radio";
 import RadioGroup from "@material-ui/core/RadioGroup";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
-import FormLabel from "@material-ui/core/FormLabel";
-import NativeSelect from "@material-ui/core/NativeSelect";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 
@@ -21,11 +18,7 @@ const useStyles = makeStyles((theme) => ({
 
 function InitSettings(props) {
   const classes = useStyles();
-  const [framework, setFramework] = useState("");
-  const [frameworkModel, setFrameworkModel] = useState("");
-  const [precision, setPrecision] = useState("");
-  const [scVersion, setScVersion] = useState("");
-  const [gpuNumber, setGpuNumber] = useState(0);
+
   const handleFrameworkChange = (event) =>
     props.setFramework(event.target.value);
   const handleFrameworModelChange = (event) =>

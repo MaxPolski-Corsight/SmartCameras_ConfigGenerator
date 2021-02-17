@@ -1,15 +1,11 @@
 import React from "react";
-import _ from "lodash";
 import { connect } from "react-redux";
 import Accordion from "@material-ui/core/Accordion";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import AccordionDetails from "@material-ui/core/AccordionDetails";
-import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
-import InstancesList from "./InstancesList";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Switch from "@material-ui/core/Switch";
 import InstanceItem from "./InstanceItem";
+import ArrayServiceItem from './ArrayServiceItem';
 
 const handleChane = (path, value, fun) => {
   const change = { path: path, value: value };
@@ -29,7 +25,7 @@ function createInstances(instances,gpu) {
 
 function createTree(root, path, changeFunc,gpu) {
   return Object.entries(root).map(([key, value]) => {
-    if (key == "INSTANCES") {
+    if (key === "INSTANCES") {
       return (
         <>
           <Accordion>
@@ -41,6 +37,15 @@ function createTree(root, path, changeFunc,gpu) {
     }
     if (value != null && typeof value == "object") {
       let new_path = [...path, key];
+      if(Array.isArray(value)){
+        return (
+          <Accordion>
+            <AccordionSummary>{key}</AccordionSummary>
+            <ArrayServiceItem keyName={key} array={value} fun={(newValue) =>handleChane(new_path,newValue, changeFunc)}/>
+           </Accordion>
+        );
+
+      }
       return (
         <Accordion>
           <AccordionSummary>{key}</AccordionSummary>
@@ -56,6 +61,7 @@ function createTree(root, path, changeFunc,gpu) {
     ) {
       let new_path = [...path, key];
       return (
+        <>
         <AccordionDetails>
           <TextField
             fullWidth
@@ -65,8 +71,12 @@ function createTree(root, path, changeFunc,gpu) {
             defaultValue={value}
           />
         </AccordionDetails>
+
+        </>
       );
     }
+
+
   });
 }
 

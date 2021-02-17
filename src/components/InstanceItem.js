@@ -3,8 +3,6 @@ import { makeStyles } from "@material-ui/core/styles";
 import { connect } from "react-redux";
 import AccordionSummary from "@material-ui/core/AccordionSummary";
 import Typography from "@material-ui/core/Typography";
-import TextField from "@material-ui/core/TextField";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Switch from "@material-ui/core/Switch";
 import { Button } from "@material-ui/core";
 import { withStyles } from "@material-ui/core/styles";
@@ -18,9 +16,13 @@ const useStyles = makeStyles({
   h: {
     fontWeight: "bold",
   },
+  accordionSummary:{
+    display:'flex',
+
+  },
   switch: {
-    position: "absolute",
-    marginLeft: "94%",
+    position: 'absolute',
+    right:4,
   },
   textField: {
     display: "flex",
@@ -29,7 +31,8 @@ const useStyles = makeStyles({
 
 const Accordion = withStyles({
   root: {
-    border: "1px solid rgba(0, 0, 0, .125)",
+    border: '2px solid #EBEBEB',
+    borderRadius: '89px',
     boxShadow: "none",
     "&:not(:last-child)": {
       borderBottom: 0,
@@ -102,15 +105,6 @@ function InstanceItem(props) {
     props.setChange(path,change);
   };
 
-  const updateInstances2 = (ins) => {
-    const path = ["INSTANCES", props.name];
-    const change = {
-      active: active,
-      instances: ins,
-    };
-    console.log("the changes");
-    props.setChange({ path, value: change });
-  };
   const handleGpuSelect = (index, e) => {
     let updateInstances = [...instances];
     updateInstances[index]["DeviceContext"]["device_id"] = e.target.value;
@@ -121,13 +115,19 @@ function InstanceItem(props) {
     <div>
       <Accordion>
         <AccordionSummary>
-          {props.name}
+          <div className={classes.accordionSummary}>
+            <div>
+              {props.name}
+            </div>
+            <div className={classes.switch} >
           <Switch
             color="primary"
             className={classes.switch}
             checked={active}
             onClick={handleSwitch}
           />
+            </div>
+          </div>
         </AccordionSummary>
         <AccordionDetails>
           <Button onClick={handleAddInstance}>Add Instate</Button>
