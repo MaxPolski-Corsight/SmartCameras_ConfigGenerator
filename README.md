@@ -12,4 +12,4 @@ To get the frontend running locally:
 ## Todos
 
 - [x] Create alpha version
-- [ ] Divide the states correctly
+- [X] Divide the states correctly
