@@ -58,7 +58,7 @@ function InitSettings(props) {
       <Divider className={classes.divider} />
       <FormControl fullWidth>
         <InputLabel>Framework Model</InputLabel>
-        <Select onChange={handleFrameworModelChange} defualtvalue={""}>
+        <Select  native onChange={handleFrameworModelChange} defualtvalue={"Thalmus3"}>
           <option value={"Thalmus3"}>Thalmus3</option>
           <option value={"Thalmus4"}>Thalmus4</option>
           <option value={"Thalmus5"}>Thalmus5</option>
@@ -66,7 +66,7 @@ function InitSettings(props) {
       </FormControl>
       <FormControl fullWidth>
         <InputLabel>Precision</InputLabel>
-        <Select onChange={handlePercisionChange} defualtvalue={""}>
+        <Select native  onChange={handlePercisionChange} defualtvalue={"fp16"}>
           <option value={"fp16"}>fp16</option>
           <option value={"fp32"}>fp32</option>
         </Select>

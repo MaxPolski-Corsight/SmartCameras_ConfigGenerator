@@ -85,7 +85,7 @@ export const SetUpServices = (props) => {
   return (
     <div>
       {createTree(DataFromConfig, [], props.setChange,props.gpu)}
-      <button onClick={() => console.log(props)}>test state</button>
+      {/*<button onClick={() => console.log(props)}>test state</button>*/}
     </div>
   );
 };
@@ -95,7 +95,7 @@ const setChange = (change) => ({
   type: "ADD_CHANGES",
   payload: change,
 });
-
+//STATES
 const mapStateToProps = (state) => ({
   gpu: state.sysInfo,
 });

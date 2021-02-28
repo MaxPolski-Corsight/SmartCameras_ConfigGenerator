@@ -11,10 +11,16 @@ import MuiAccordionDetails from "@material-ui/core/AccordionDetails";
 import Select from "@material-ui/core/Select";
 import InputLabel from "@material-ui/core/InputLabel";
 import MenuItem from "@material-ui/core/MenuItem";
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import FormGroup from '@material-ui/core/FormGroup';
+
+
 
 const useStyles = makeStyles({
   h: {
     fontWeight: "bold",
+  },
+  instanceDiv:{
   },
   accordionSummary:{
     display:'flex',
@@ -24,8 +30,13 @@ const useStyles = makeStyles({
     position: 'absolute',
     right:4,
   },
-  textField: {
-    display: "flex",
+  selectItem :{
+    paddingLeft: '20px'
+  },
+  textField_container: {
+    display:'flex',
+    justifyContent: 'space-between'
+
   },
 });
 
@@ -49,8 +60,8 @@ const Accordion = withStyles({
 
 const AccordionDetails = withStyles((theme) => ({
   root: {
-    padding: theme.spacing(6),
-    display: "inline",
+    paddingLeft: theme.spacing(3),
+
     fontWeight: "bold",
   },
 }))(MuiAccordionDetails);
@@ -130,28 +141,33 @@ function InstanceItem(props) {
           </div>
         </AccordionSummary>
         <AccordionDetails>
-          <Button onClick={handleAddInstance}>Add Instate</Button>
-          <Button onClick={handleRemoveInstance}>Remove Instate</Button>
+        <div className={classes.instanceDiv}>
+          <Button variant="outlined" color="primary" onClick={handleAddInstance}>Add Instate</Button>
+          <Button variant="outlined" color="secondary" onClick={handleRemoveInstance}>Remove Instate</Button>
           <h1></h1>
           {instances != null
             ? instances.map((i, index) =>
                 "DeviceContext" in i ? (
-                  <div className={classes.textField}>
-                    <InputLabel>instance_id {i["instance_id"]}</InputLabel>
-                    <Select value={i['DeviceContext']['device_id']} onClick={(e) => handleGpuSelect(index, e)}>
+                    <FormGroup  row>
+                    <FormControlLabel
+                    labelPlacement="start"
+                    label={`Instance Id ${i["instance_id"]}`}
+                    control={
+                      <Select  value={i['DeviceContext']['device_id']} onClick={(e) => handleGpuSelect(index, e)}>
                       {[...Array(props.gpu).keys()].map((i) => (
                         <MenuItem value={i}>device_id {i}</MenuItem>
                       ))}
                     </Select>
-
-                    <br />
-                  </div>
+                    }
+                    />
+                    </FormGroup>
                 ) : (
                   <Typography>instance_id {i["instance_id"]}</Typography>
                 )
               )
             : null}
           <Button onClick={() => console.log(instances)}>test instances</Button>
+          </div>
         </AccordionDetails>
       </Accordion>
     </div>
