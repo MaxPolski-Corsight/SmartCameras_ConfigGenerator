@@ -1,77 +1,97 @@
-import {CHANGE_GPU_NUMBER,SET_PERCISION,SET_FRAMEWORK,SET_MODEL,SET_SC_VERSION} from './constants/actionTypes'
-import { combineReducers, createStore } from 'redux';
+import {
+  CHANGE_GPU_NUMBER,
+  SET_PERCISION,
+  SET_FRAMEWORK,
+  SET_MODEL,
+  SET_SC_VERSION,
+  LOAD_INITIAL_CONFIGURATION,
+} from "./constants/actionTypes";
+import { combineReducers, createStore } from "redux";
 import _ from "lodash";
 
-
 const sysInfoInitState = {
-    gpuCount : 0,
-    framework: '',
-    model:'',
-    precision: '',
-    scVersion: '',
+  gpuCount: 0,
+  framework: '',
+  frameworkModel: '',
+  precision: 'fp16',
+  scVersion: '',
+};
+
+const sysInfo = (state = sysInfoInitState, action) => {
+  switch (action.type) {
+    case CHANGE_GPU_NUMBER:
+      return {
+        ...state,
+        gpuCount: action.payload,
+      };
+    case SET_PERCISION:
+      return {
+        ...state,
+        precision: action.payload,
+      };
+    case SET_FRAMEWORK:
+      return {
+        ...state,
+        framework: action.payload,
+      };
+    case SET_MODEL:
+      return {
+        ...state,
+        model: action.payload,
+      };
+    case SET_SC_VERSION:
+      return {
+        ...state,
+        scVersion: action.payload,
+      };
+    default:
+      return state;
   }
-  
-  const sysInfo = ( state = sysInfoInitState, action) => {
-    switch (action.type) {
-      case CHANGE_GPU_NUMBER:
-        return {
-          ...state,
-          gpuCount : action.payload,
-        };
-      case SET_PERCISION:
-        return {
-          ...state,
-          precision:action.payload,
-        }
-      case SET_FRAMEWORK:
-        return{
-          ...state,
-          framework:action.payload,
-        }
-      case SET_MODEL:
-        return{
-          ...state,
-          model:action.payload,
-        }
-      case SET_SC_VERSION:
-        return {
-          ...state,
-          scVersion:action.payload,
-        }
-      default:
-        return state;
-    }
-  };
-  
-  
-  const configurationInitState = {
-    configurationName :'',
-    configurationChanges : {},
+};
+
+const configurationInitState = {
+  initialConfiguration : {},
+  configurationName: '',
+  configurationChanges: {},
+};
+
+const configurationChanges = (state = configurationInitState, action) => {
+  switch (action.type) {
+    case LOAD_INITIAL_CONFIGURATION:
+      const configFileName = `default_config_${state.scVersion}_trt.json`
+      return {
+        ...state,
+        initialConfiguration: require("./configs/"+configFileName),
+      };
+    case "SET_CONFIGURATION_NAME":
+      return {
+        ...state,
+        configurationName: action.payload,
+      };
+    case "SET_CONFIGURATION_NAME2":
+      return {
+        ...state,
+        configurationChanges: action.payload.newConfig,
+      };
+    case "ADD_CHANGES":
+      console.log(action);
+      const temp_changes = _.set(
+        state.configurationChanges,
+        action.payload.path,
+        action.payload.value
+      );
+      return {
+        ...state,
+        configurationChanges: temp_changes,
+      };
+    default:
+      return state;
   }
-  
-  const configurationChanges = ( state = configurationInitState, action) => {
-    switch (action.type) {
-      case 'SET_CONFIGURATION_NAME':
-        return {
-          ...state,
-          configurationName : action.payload,
-        };
-      case 'ADD_CHANGES':
-        console.log(action);
-        const temp_changes = _.set(state.configurationChanges,action.payload.path,action.payload.value)
-        return{
-          ...state,
-          configurationChanges : temp_changes
-        }
-      default:
-        return state;
-    }
-  };
-  
-  const appStore = combineReducers({
-    sysInfo,
-    configurationChanges
-  });
-  
-  
-  export const store = createStore(appStore)
+};
+
+const appStore = combineReducers({
+  sysInfo,
+  configurationChanges,
+});
+
+export const store = createStore(appStore);

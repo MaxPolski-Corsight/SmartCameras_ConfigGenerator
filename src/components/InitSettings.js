@@ -8,6 +8,7 @@ import FormControlLabel from "@material-ui/core/FormControlLabel";
 import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
+import { Button } from "@material-ui/core";
 
 const useStyles = makeStyles((theme) => ({
   headder: {
@@ -18,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 function InitSettings(props) {
   const classes = useStyles();
-
+  
   const handleFrameworkChange = (event) =>
     props.setFramework(event.target.value);
   const handleFrameworModelChange = (event) =>
@@ -41,9 +42,9 @@ function InitSettings(props) {
       <FormControl>
         <RadioGroup onChange={handleFrameworkChange}>
           <FormControlLabel
-            value="Tensorflow"
+            value="TRT"
             control={<Radio color="primary" />}
-            label="Tensorflow"
+            label="TRT"
           />
           <FormControlLabel
             value="OpenVino"
@@ -90,6 +91,9 @@ function InitSettings(props) {
           <option value={4}>4</option>
         </Select>
       </FormControl>
+      <Button onClick={()=>console.log(props.test)}>
+        TEST 
+      </Button>
     </div>
   );
 }
@@ -117,6 +121,7 @@ const mapStateToProps = function (state) {
   return {
     gpuCount: state.sysInfo.gpuCount,
     framework: state.sysInfo.framework,
+    test: state,
   };
 };
 

@@ -9,14 +9,20 @@ import FormControl from "@material-ui/core/FormControl";
 
 function ConfigurationList(props) {
   const configurationlist = [
-    "Default Configuration",
-    "Mask Mode",
-    "Crowd Mode",
-    "Increased detection mode",
-    "Extreme mode",
+    ["Default Configuration",''],
+    ["Mask Mode","mask_config.json"],
+    ["Crowd Mode",''],
+    ["Increased detection mode",''],
+    ["Extreme mode",''],
   ];
-  const handleConfigutaionListChange = (event) =>
-  props.setConfigurationName(event.target.value);
+  const handleConfigutaionListChange = (event) => {
+    const [name,configurationFile] = (event.target.value.split(','));
+    const DataFromConfig = require("../configs/"+configurationFile);
+    //props.setConfigurationName(event.target.value)};
+    console.log(DataFromConfig);
+    props.setConfigurationName2(name,DataFromConfig)
+  };
+
   return (
     <div>
       <Typography variant="h6" gutterBottom>
@@ -29,8 +35,8 @@ function ConfigurationList(props) {
             <FormControlLabel
               value={i}
               control={<Radio color="primary" />}
-              label={i}
-              key={i}
+              label={i[0]}
+              key={i[0]}
             />
           ))}
         </RadioGroup>
@@ -47,6 +53,11 @@ const setConfigurationName = (configurationName) => ({
   payload: configurationName,
 });
 
+const setConfigurationName2 = (configurationName,configuration) => ({
+  type: "SET_CONFIGURATION_NAME2",
+  payload: {'newConfig' : configuration },
+});
+
 const mapStateToProps = function (state) {
   return {
     configurationName: state.configurationChanges.configurationName,
@@ -57,6 +68,8 @@ const mapDispatchToProps = (dispatch) => {
   return {
     setConfigurationName: (configurationName) =>
       dispatch(setConfigurationName(configurationName)),
+      setConfigurationName2: (configurationName,configuration) =>
+      dispatch(setConfigurationName2(configurationName,configuration)),
   };
 };
 

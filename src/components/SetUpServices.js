@@ -6,6 +6,9 @@ import AccordionDetails from "@material-ui/core/AccordionDetails";
 import TextField from "@material-ui/core/TextField";
 import InstanceItem from "./InstanceItem";
 import ArrayServiceItem from './ArrayServiceItem';
+import _ from "lodash";
+
+const ConfigRules = require("../configs/config_rules.json");
 
 const handleChane = (path, value, fun) => {
   const change = { path: path, value: value };
@@ -41,7 +44,7 @@ function createTree(root, path, changeFunc,gpu) {
         return (
           <Accordion>
             <AccordionSummary>{key}</AccordionSummary>
-            <ArrayServiceItem keyName={key} array={value} fun={(newValue) =>handleChane(new_path,newValue, changeFunc)}/>
+            <ArrayServiceItem rules={_.get(ConfigRules,new_path)} keyName={key} array={value} fun={(newValue) =>handleChane(new_path,newValue, changeFunc)}/>
            </Accordion>
         );
 

@@ -33,6 +33,7 @@ function ArrayServiceItem(props) {
     const [firstRender,setFirstRender] = useState(true);
     const classes = useStyles();
     const sendChagneFunction = props.fun;
+    const rules = props.rules;
     const handleAddButton = () => {
         setArrayList([...arrayList,'']);
     }
@@ -53,6 +54,12 @@ function ArrayServiceItem(props) {
 
     useEffect(()=>{
         if(!firstRender){
+            console.log(arrayList.length);
+
+            if(arrayList.length != rules[0]){
+                alert('Please add a variable')
+            }
+
             sendChagneFunction(arrayList)
         }
             

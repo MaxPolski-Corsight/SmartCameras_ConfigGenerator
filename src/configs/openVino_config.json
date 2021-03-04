@@ -1,0 +1,84 @@
+{
+    "_id" : "_OPENVINO_GPU_",
+    "sc" : {
+        "Services" : {
+            "Indexer" : {
+                "batch_size" : 1,
+                "inference_framework" : "openvino",
+                "precision" : "fp16",
+                "lm_detector" : {
+                    "detector_type" : "Cornea",
+                    "inference_framework" : "openvino",
+                    "precision" : "fp16",
+                    "batch_size" : 1
+                }
+            },
+            "StreamFaceDetector" : {
+                "inference_framework" : "openvino",
+                "precision" : "fp16",
+                "target_size" : [ 
+                    320, 
+                    192
+                ]
+            },
+            "POIFaceDetector" : {
+                "inference_framework" : "openvino",
+                "precision" : "fp16",
+                "target_size" : [ 
+                    320, 
+                    192
+                ]
+            }
+        },
+        "INSTANCES" : {
+            "ServiceWatcher" : {
+                "active" : true
+            },
+            "Indexer" : {
+                "active" : true,
+                "instances" : [ 
+                    {
+                        "instance_id" : 0,
+                        "DeviceContext" : {
+                            "device_id" : 0,
+                            "device_type" : "IntelGPU"
+                        }
+                    }, 
+                    {
+                        "instance_id" : 1,
+                        "DeviceContext" : {
+                            "device_id" : 0,
+                            "device_type" : "IntelGPU"
+                        }
+                    }
+                ]
+            },
+            "POIFaceDetector" : {
+                "active" : true,
+                "instances" : [ 
+                    {
+                        "instance_id" : 0,
+                        "DeviceContext" : {
+                            "device_id" : 0,
+                            "device_type" : "IntelGPU"
+                        }
+                    }
+                ]
+            },
+            "StreamFaceDetector" : {
+                "active" : true,
+                "instances" : [ 
+                    {
+                        "instance_id" : 0,
+                        "DeviceContext" : {
+                            "device_id" : 0,
+                            "device_type" : "IntelGPU"
+                        }
+                    }
+                ]
+            }
+        }
+    },
+    "ui" : {},
+    "dev" : {}
+}
