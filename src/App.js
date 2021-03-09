@@ -28,15 +28,6 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-function test () {
-  const initConfig = require("./configs/default_config_0.20.0_trt.json");
-  const changes = require("./configs/openVino_config.json");
-  const newConfig = Object.assign({}, initConfig, changes);
-  console.log(newConfig);
-  console.log(_.merge(initConfig, changes));
-
-}
-
 function App(props) {
   const classes = useStyles();
   test();
