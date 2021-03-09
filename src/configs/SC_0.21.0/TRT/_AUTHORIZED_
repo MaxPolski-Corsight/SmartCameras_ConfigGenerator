@@ -1,0 +1,45 @@
+{
+    "_id" : "_AUTHORIZED_",
+    "sc" : {
+        "Services" : {
+            "StreamFaceDetector" : {
+                "threshold" : 0.9
+            },
+            "Stream" : {
+                "min_detection_width" : 60
+            },
+            "EventLogic": {
+			"whitelist": {
+				"time_limit": 10,
+				"yaw_accept_limit": 55,
+				"pitch_accept_limit": null,
+				"min_quality_faces": 2
+				}
+            },
+            "RecognitionManager" : {
+                "min_face_score" : 80,
+                "whitelist_certainty_min_crop_size_px" : 80
+            },
+            "Tracker" : {
+                "min_face_score_new_tracker" : 70,
+                "MatchingTracker" : {
+                    "min_face_score" : 80
+                },
+                "ProximityTracker" : {
+                    "max_frames_back" : 5,
+                    "threshold" : 14.2857,
+                    "min_face_score" : 40,
+                    "min_normalized_dist" : 2.5
+                }
+            },
+            "HistoryWorker" : {
+                "min_face_score_search" : 70,
+                "min_confidence" : 60.0,
+                "min_face_score_add" : 70,
+                "max_yaw_add" : 120
+            }
+        }
+    },
+    "ui" : {},
+    "dev" : {}
+}

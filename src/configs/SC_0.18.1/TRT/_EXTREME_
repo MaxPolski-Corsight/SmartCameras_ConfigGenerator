@@ -1,0 +1,44 @@
+{
+    "_id" : "_EXTREME_",
+    "sc" : {
+        "Services" : {
+            "StreamFaceDetector" : {
+                "threshold" : 0.2
+            },
+            "Stream" : {
+                "min_detection_width" : 0
+            },
+            "POIFaceDetector" : {
+                "target_size" : [ 
+                    960, 
+                    544
+                ]
+            },
+            "EventLogic" : {
+                "min_num_faces_for_sending_events" : 1
+            },
+            "POIDBManager" : {
+                "min_face_score_add" : 50,
+                "min_face_score_search" : 0,
+                "max_yaw_add" : 120
+            },
+            "RecognitionManager" : {
+                "min_face_score" : 50
+            },
+            "Tracker" : {
+                "min_face_score_new_tracker" : 50,
+                "MatchingTracker" : {
+                    "min_face_score" : 50
+                }
+            },
+            "HistoryWorker" : {
+                "min_face_score_search" : 50,
+                "min_confidence" : 60.0,
+                "min_face_score_add" : 50,
+                "max_yaw_add" : 120
+            }
+        }
+    },
+    "ui" : {},
+    "dev" : {}
+}

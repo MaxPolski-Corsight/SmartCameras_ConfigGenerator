@@ -1,0 +1,360 @@
+{
+  "Services": {
+    "AppServer": {
+      "accepted_connections_timeout": 10.0,
+      "num_threads": {
+        "POIDBService": 20,
+        "CameraService": 5,
+        "HistoryDBService": 20,
+        "PerformanceService": 5,
+        "UsersService": 5
+      },
+      "ports": {
+        "POIDBService": 8080,
+        "CameraService": 5002,
+        "HistoryDBService": 5003,
+        "PerformanceService": 5050,
+        "UsersService": 5004
+      }
+    },
+    "Capture": {
+      "min_available_port": 8900,
+      "max_available_port": 10000,
+      "in_fps": 10,
+      "connection_timeout_sec": 10.0
+    },
+    "Stream": {
+      "default_stream_config": {
+        "analysis_quality": "fast",
+        "face_recognition_threshold": 50.0,
+        "watchlists": [],
+        "events_outputs": [],
+        "required_face_attributes": [],
+        "timeout_settings": {
+          "live_frame_timeout": -1.0,
+          "forensics_process_timeout": 20.0,
+          "relative_index_part": 1.0,
+          "relative_track_part": 1.0,
+          "relative_recognition_part": 1.0
+        }
+      },
+      "default_video_settings": {
+      },
+      "min_detection_width": 30,
+      "rebroadcast_frame_width": 640,
+      "additional_events_urls": [],
+      "indexer_mode": "high_performance",
+      "analysis_quality_settings": {
+        "fast": {
+          "face_detector_fps": 2
+        },
+        "balanced": {
+          "face_detector_fps": 4
+        },
+        "deep": {
+          "face_detector_fps": 8
+        }
+      }
+    },
+    "Indexer": {
+      "batch_size": 4,
+      "batch_timeout": 0.002,
+      "inference_framework": "tensorrt",
+      "precision": "fp16",
+      "lm_detector": {
+        "detector_type": "Cornea",
+        "inference_framework": "tensorrt",
+        "target_size": [224, 160],
+        "precision": "fp16",
+        "batch_size": 1
+      },
+      "supported_face_attributes": ["mask_detect"],
+      "high_quality": {
+        "landmarks_mode": 1
+      },
+      "high_performance": {
+        "landmarks_mode": 2
+      }
+    },
+    "FeaturesDecision": {
+      "mask_detect": {
+        "certainty_min_crop_size_px": 80,
+        "threshold": 0.85
+      }
+    },
+    "Tracker": {
+      "seconds_to_live_since_last_detect": 10.0,
+      "min_face_score_new_tracker": 102.0,
+      "MatchingTracker": {
+        "enable": true,
+        "max_sigs": 30,
+        "threshold": 42.8571,
+        "min_face_score": 100.0,
+        "discard_by_non_proximity": false,
+        "max_normalized_dist": 1.0,
+        "frame_id_dist": 1
+      },
+      "ProximityTracker": {
+        "enable": true,
+        "max_frames_back": 4,
+        "threshold": 28.5714,
+        "min_face_score": 50.0,
+        "min_normalized_dist": 1.2
+      }
+    },
+    "POIMatcher": {
+      "batch_size": 5,
+      "batch_timeout": 0.002
+    },
+    "RecognitionManager": {
+      "min_face_score": 100.0,
+      "whitelist_certainty_min_crop_size_px": 80
+    },
+    "HistoryWorker": {
+      "min_confidence": 60.0,
+      "min_face_score_search": 100.0,
+      "min_face_score_add": 102.0,
+      "max_yaw_add": 70.0,
+      "max_pitch_add": null,
+      "delta_face_score_update": 0.5,
+      "events_interval_time": 5.0,
+      "events_wait_time": -1.0,
+      "maintenance": {
+        "clear_history_by_time_expiration": false,
+        "history_persons_ttl_hours": 24.0,
+        "max_persons_allowed_in_db": 150000,
+        "max_appearance_records_allowed_in_db": 250000,
+        "signatures_per_person": 1,
+        "fraction_to_remove_when_max_reached": 0.05,
+        "check_history_clear_minutes_interval": 10.0
+      }
+    },
+    "HistoryDBService": {
+      "indexer_mode": "high_quality",
+      "min_face_score_search": 0.0
+    },
+    "HistoryMatcher": {
+      "batch_size": 10,
+      "batch_timeout": 0.002
+    },
+    "POIDBManager": {
+      "min_face_score_add": 100.0,
+      "min_crop_width_add": 0,
+      "max_yaw_add": 65.0,
+      "max_pitch_add": null,
+      "min_face_score_search": 0.0,
+      "min_crop_width_search": 0,
+      "max_crop_width": 200,
+      "indexer_mode": "high_quality",
+      "max_poi_faces": 5
+    },
+    "StreamFaceDetector": {
+      "detector_type": "Cornea",
+      "inference_framework": "tensorrt",
+      "warmup_image": "warmup_image.jpg",
+      "threshold": 0.4,
+      "target_size": [960, 544],
+      "precision": "fp16",
+      "detector_queue_max_size": 10,
+      "batch_size": 1,
+      "batch_timeout": 0.002,
+      "max_crop_size_px": 150
+    },
+    "POIFaceDetector": {
+      "detector_type": "Cornea",
+      "inference_framework": "tensorrt",
+      "warmup_image": "warmup_image.jpg",
+      "threshold": 0.2,
+      "target_size": [672, 384],
+      "precision": "fp16",
+      "batch_size": 1,
+      "batch_timeout": 0.002,
+      "min_detection_width": 0
+    },
+    "EventLogic": {
+      "appearance_event_interval_time": 5.0,
+      "status_event_interval_time": 10.0,
+      "min_num_faces_for_sending_events": 2,
+      "confidence_percent_improvement_to_update": 0.05,
+      "fscore_percent_improvement_to_update": 0.1,
+      "mscore_percent_improvement_to_update": 0.05,
+      "whitelist": {
+        "time_limit": 10.0,
+        "yaw_accept_limit": 55.0,
+        "pitch_accept_limit": null,
+        "min_quality_faces": 2,
+        "consecutive_faces": false
+      },
+      "mask_detect": {
+        "time_limit": 2.0,
+        "yaw_accept_limit": 75.0,
+        "pitch_accept_limit": null,
+        "min_quality_faces": 2,
+        "consecutive_faces": true
+      }
+    },
+    "Performance": {
+      "compute_gpu_quantities": false,
+      "log_sending_interval": 5.0,
+      "log_writing_interval": 40.0,
+      "max_entries_per_writer": 1000,
+      "save_records_to_db": false
+    },
+    "Users": {
+      "session_time": 600.0
+    }
+  },
+  "LOGS": {
+    "default_logs_parent_directory": ".smart_cameras",
+    "max_log_file_size_MB": 5.0,
+    "number_of_backup_files": 20,
+    "console_log_level": "INFO",
+    "record_log_level": "INFO",
+    "max_size_of_collection": 134217728,
+    "log_db_name": "LOGS_DB",
+    "server_selection_timeout": 5
+  },
+  "PRIVACY_MODE": {
+    "Analysis": {
+      "send_detected_event": true,
+      "show_detected_faces": false,
+      "send_matched_event": true,
+      "show_matched_faces": true,
+      "show_match_display_name": true,
+      "show_match_display_image": false
+    },
+    "POIDBService": {
+      "save_faces": false,
+      "save_display_image": false
+    },
+    "HistoryDBService": {
+      "save_detected_faces": false,
+      "save_detected_sigs": false,
+      "save_matched_faces": true,
+      "save_matched_sigs": true,
+      "save_match_display_name": true,
+      "save_match_display_image": false
+    }
+  },
+  "INSTANCES": {
+    "Indexer": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0,
+          "DeviceContext": {"device_id": 0, "device_type": "GPU"}
+        },
+        {
+          "instance_id": 1,
+          "DeviceContext": {"device_id": 0, "device_type": "GPU"}
+        }
+      ]
+    },
+    "POIDBService": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "POIMatcher": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        },
+        {
+          "instance_id": 1
+        }
+      ]
+    },
+    "POIFaceDetector": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0,
+          "DeviceContext": {"device_id": 0, "device_type": "GPU"}
+        }
+      ]
+    },
+    "Capture": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0,
+          "DeviceContext": {"device_id": 0, "device_type": "CPU"}
+        }
+      ]
+    },
+    "CameraService": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "HistoryDBService": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "HistoryWorker": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "HistoryMatcher": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "StreamFaceDetector": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0,
+          "DeviceContext": {"device_id": 0, "device_type": "GPU"}
+        },
+        {
+          "instance_id": 1,
+          "DeviceContext": {"device_id": 0, "device_type": "GPU"}
+        }
+      ]
+    },
+    "UsersService": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "ServiceWatcher": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    },
+    "PerformanceService": {
+      "active": true,
+      "instances": [
+        {
+          "instance_id": 0
+        }
+      ]
+    }
+  }
+}

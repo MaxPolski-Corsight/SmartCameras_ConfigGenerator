@@ -1,3 +1,4 @@
+import React , {useState} from "react";
 import { connect } from "react-redux";
 import { makeStyles } from "@material-ui/core/styles";
 import Typography from "@material-ui/core/Typography";
@@ -9,25 +10,52 @@ import FormControl from "@material-ui/core/FormControl";
 import InputLabel from "@material-ui/core/InputLabel";
 import Select from "@material-ui/core/Select";
 import { Button } from "@material-ui/core";
+import MenuItem from '@material-ui/core/MenuItem';
+
+
+import { SC_VERSIONS , MODELS_NAMES , DEFAULT_MODEL } from "../constants/InitSettingsConstant";
 
 const useStyles = makeStyles((theme) => ({
   headder: {
     marginTop: theme.spacing(1),
   },
+  nextBtn :{
+    marginTop : '10px',
+  },
   divider: {},
 }));
 
 function InitSettings(props) {
-  const classes = useStyles();
+  const [showOvType,setShowOvType] = useState(false);
+  const [showPrecision,setShowPrecision] = useState(true);
+  const [ovType,setOvType] = useState('');
+  const classes = useStyles(); 
+
+
   
-  const handleFrameworkChange = (event) =>
+  
+  const handleFrameworkChange = (event) =>{
+    if(event.target.value =='OpenVino'){
+      setShowOvType(true);
+      setShowPrecision(false);
+    } else {
+      setShowOvType(false);
+      setShowPrecision(true);
+
+    }
     props.setFramework(event.target.value);
-  const handleFrameworModelChange = (event) =>
+
+  }
+  const handleOpenVinoType = (event) => {
+    props.setOpenVinoType(event.target.value);
+  }
+  const handleFrameworModelChange = (event) =>{
     props.setModel(event.target.value);
+    
+  }
   const handlePercisionChange = (event) =>
     props.setPrecision(event.target.value);
   const handleScVersionChange = (event) =>{
-      console.log(event.target.value);
     props.setScVersion(event.target.value);
   }
   const handleGpuNumberChange = (event) =>
@@ -53,35 +81,58 @@ function InitSettings(props) {
           />
         </RadioGroup>
       </FormControl>
+      {showOvType &&
+      <>
+      <Typography variant="h6" gutterBottom>
+      OpenVino Type
+      </Typography>
+      <Divider />
+      <FormControl>
+        <RadioGroup onChange={handleOpenVinoType}>
+          <FormControlLabel
+            value="_OPENVINO_CPU_"
+            control={<Radio color="primary" />}
+            label="CPU"
+          />
+          <FormControlLabel
+            value="_OPENVINO_GPU_"
+            control={<Radio color="primary" />}
+            label="IntetGPU"
+          />
+        </RadioGroup>
+      </FormControl>
+      </>
+      }
       <Typography className={classes.headder} variant="h6" gutterBottom>
         Framework addional settings
       </Typography>
       <Divider className={classes.divider} />
       <FormControl fullWidth>
-        <InputLabel>Framework Model</InputLabel>
-        <Select  native onChange={handleFrameworModelChange} defualtvalue={"Thalmus3"}>
-          <option value={"Thalmus3"}>Thalmus3</option>
-          <option value={"Thalmus4"}>Thalmus4</option>
-          <option value={"Thalmus5"}>Thalmus5</option>
+        <InputLabel>Model</InputLabel>
+        <Select  native onChange={handleFrameworModelChange} defualtvalue={DEFAULT_MODEL}>
+          {MODELS_NAMES.map(i=><option value={i}>{i}</option> )}
         </Select>
       </FormControl>
+      {showPrecision && <>
       <FormControl fullWidth>
         <InputLabel>Precision</InputLabel>
         <Select native  onChange={handlePercisionChange} defualtvalue={"fp16"}>
           <option value={"fp16"}>fp16</option>
           <option value={"fp32"}>fp32</option>
         </Select>
-      </FormControl>
+      </FormControl> </>}
       <Typography className={classes.headder} variant="h6" gutterBottom>
         System settings
       </Typography>
       <Divider className={classes.divider} />
       <FormControl fullWidth>
         <InputLabel>Smart Cameras version</InputLabel>
-        <Select onChange={handleScVersionChange} defualtvalue={""}>
-          <option value={"0.20.0"}>0.20.0</option>
+        <Select onChange={handleScVersionChange}>
+          {SC_VERSIONS.map(i=><option value={i.folderName}>{i.name}</option> )}
         </Select>
       </FormControl>
+      {showPrecision && 
+      <>
       <FormControl fullWidth>
         <InputLabel>Video cards in the system</InputLabel>
         <Select onChange={handleGpuNumberChange} defualtvalue={0}>
@@ -91,8 +142,10 @@ function InitSettings(props) {
           <option value={4}>4</option>
         </Select>
       </FormControl>
-      <Button onClick={()=>console.log(props.test)}>
-        TEST 
+      </>
+      }
+      <Button className={classes.nextBtn}  color="primary"  variant="outlined" fullWidth onClick={props.testConfig}>
+        Next
       </Button>
     </div>
   );
@@ -111,6 +164,10 @@ const setFramework = (framework) => ({
   type: "SET_FRAMEWORK",
   payload: framework,
 });
+const setOpenVinoType = (ovType) => ({
+  type: "SET_OPENVINOTYPE",
+  payload: ovType,
+});
 const setModel = (model) => ({ type: "SET_MODEL", payload: model });
 const setScVersion = (sc_version) => ({
   type: "SET_SC_VERSION",
@@ -119,9 +176,6 @@ const setScVersion = (sc_version) => ({
 
 const mapStateToProps = function (state) {
   return {
-    gpuCount: state.sysInfo.gpuCount,
-    framework: state.sysInfo.framework,
-    test: state,
   };
 };
 
@@ -132,6 +186,8 @@ const mapDispatchToProps = (dispatch) => {
     setFramework: (framework) => dispatch(setFramework(framework)),
     setModel: (model) => dispatch(setModel(model)),
     setScVersion: (sc_version) => dispatch(setScVersion(sc_version)),
+    testConfig: ()=>dispatch({type:'LOAD_INITIAL_CONFIGURATION'}),
+    setOpenVinoType:(ovType) => dispatch(setOpenVinoType(ovType)),
   };
 };
 

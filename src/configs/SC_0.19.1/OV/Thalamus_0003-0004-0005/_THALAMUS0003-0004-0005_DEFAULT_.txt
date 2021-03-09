@@ -1,0 +1,15 @@
+{
+    "_id" : "_thalamus0003_DEAULT_",
+    "sc" : {
+        "Services" : {
+            "Tracker" : {
+                "min_face_score_new_tracker" : 100
+            },
+            "HistoryWorker" : {
+                "min_face_score_add" : 100
+            }
+        }
+    },
+    "ui" : {},
+    "dev" : {}
+}

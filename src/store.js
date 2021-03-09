@@ -10,11 +10,15 @@ import { combineReducers, createStore } from "redux";
 import _ from "lodash";
 
 const sysInfoInitState = {
-  gpuCount: 0,
+  gpuCount: 1,
   framework: '',
+  openVinoType : '',
   frameworkModel: '',
   precision: 'fp16',
   scVersion: '',
+  initialConfiguration : {},
+  configurationName: '',
+  configurationChanges: {},
 };
 
 const sysInfo = (state = sysInfoInitState, action) => {
@@ -34,6 +38,12 @@ const sysInfo = (state = sysInfoInitState, action) => {
         ...state,
         framework: action.payload,
       };
+    case 'SET_OPENVINOTYPE':
+      return {
+        ...state,
+        openVinoType: action.payload,
+        configurationChanges : {},
+      };
     case SET_MODEL:
       return {
         ...state,
@@ -44,25 +54,39 @@ const sysInfo = (state = sysInfoInitState, action) => {
         ...state,
         scVersion: action.payload,
       };
-    default:
-      return state;
-  }
-};
-
-const configurationInitState = {
-  initialConfiguration : {},
-  configurationName: '',
-  configurationChanges: {},
-};
-
-const configurationChanges = (state = configurationInitState, action) => {
-  switch (action.type) {
     case LOAD_INITIAL_CONFIGURATION:
-      const configFileName = `default_config_${state.scVersion}_trt.json`
-      return {
-        ...state,
-        initialConfiguration: require("./configs/"+configFileName),
-      };
+      let newChanges = {};
+      let initialConfiguration =  require(`./configs/${state.scVersion}/default_config.json`);
+      if (state.precision === 'fp32' && state.framework !== 'OpenVino'){
+        _.set(newChanges,['Services', 'Indexer','precision'],'fp32');
+        _.set(newChanges,['Services', 'Indexer', 'lm_detector','precision'],'fp32');
+        _.set(newChanges,['Services', 'StreamFaceDetector','precision'],'fp32');
+        _.set(newChanges,['Services', 'POIFaceDetector','precision'],'fp32');
+        initialConfiguration = (_.merge(initialConfiguration,newChanges));
+        return {
+          ...state,
+          initialConfiguration: initialConfiguration,
+          configurationChanges : newChanges
+        };
+      }
+      if (state.framework === 'OpenVino'){
+        let openVinoChanges =  require(`./configs/${state.scVersion}/OV/${state.openVinoType}.json`);
+        initialConfiguration = (_.merge(initialConfiguration,openVinoChanges.sc));
+        console.log(_.merge(initialConfiguration,openVinoChanges.sc));
+        return {
+          ...state,
+          initialConfiguration: initialConfiguration,
+          configurationChanges : {}
+        };   
+      }
+      else {
+        return {
+          ...state,
+          initialConfiguration: initialConfiguration,
+          configurationChanges : {}
+        };        
+      }
+
     case "SET_CONFIGURATION_NAME":
       return {
         ...state,
@@ -74,16 +98,30 @@ const configurationChanges = (state = configurationInitState, action) => {
         configurationChanges: action.payload.newConfig,
       };
     case "ADD_CHANGES":
-      console.log(action);
+      console.log('work?');
       const temp_changes = _.set(
         state.configurationChanges,
         action.payload.path,
         action.payload.value
-      );
+        );
       return {
         ...state,
         configurationChanges: temp_changes,
       };
+    case "TEST_STATE":
+      console.log(state);
+      return state;
+    default:
+
+      return state;
+  }
+};
+
+const configurationInitState = {
+};
+
+const configurationChanges = (state = configurationInitState, action) => {
+  switch (action.type) {
     default:
       return state;
   }

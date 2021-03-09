@@ -1,31 +1,32 @@
 {
-    "_id" : "_OPENVINO_GPU_",
-     "Services" : {
+    "_id" : "_OPENVINO_CPU_",
+    "sc" : {
+        "Services" : {
             "Indexer" : {
                 "batch_size" : 1,
                 "inference_framework" : "openvino",
-                "precision" : "fp16",
+                "precision" : "int8",
                 "lm_detector" : {
                     "detector_type" : "Cornea",
                     "inference_framework" : "openvino",
-                    "precision" : "fp16",
+                    "precision" : "int8",
                     "batch_size" : 1
                 }
             },
             "StreamFaceDetector" : {
                 "inference_framework" : "openvino",
-                "precision" : "fp16",
+                "precision" : "int8",
                 "target_size" : [ 
-                    320, 
-                    192
+                    832, 
+                    480
                 ]
             },
             "POIFaceDetector" : {
                 "inference_framework" : "openvino",
-                "precision" : "fp16",
+                "precision" : "int8",
                 "target_size" : [ 
-                    320, 
-                    192
+                    672, 
+                    384
                 ]
             }
         },
@@ -40,14 +41,14 @@
                         "instance_id" : 0,
                         "DeviceContext" : {
                             "device_id" : 0,
-                            "device_type" : "IntelGPU"
+                            "device_type" : "CPU"
                         }
                     }, 
                     {
                         "instance_id" : 1,
                         "DeviceContext" : {
                             "device_id" : 0,
-                            "device_type" : "IntelGPU"
+                            "device_type" : "CPU"
                         }
                     }
                 ]
@@ -59,7 +60,7 @@
                         "instance_id" : 0,
                         "DeviceContext" : {
                             "device_id" : 0,
-                            "device_type" : "IntelGPU"
+                            "device_type" : "CPU"
                         }
                     }
                 ]
@@ -71,12 +72,12 @@
                         "instance_id" : 0,
                         "DeviceContext" : {
                             "device_id" : 0,
-                            "device_type" : "IntelGPU"
+                            "device_type" : "CPU"
                         }
                     }
                 ]
             }
-        
+        }
     },
     "ui" : {},
     "dev" : {}

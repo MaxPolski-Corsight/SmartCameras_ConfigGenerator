@@ -1,0 +1,15 @@
+{
+    "_id" : "_CAMERA_CALIBRATION_",
+    "sc" : {
+        "LOGS" : {
+            "file_log_level" : "DEBUG"
+        }
+    },
+    "ui" : {
+        "face_debug_attributes" : [ 
+            "bbox", 
+            "face_score"
+        ]
+    },
+    "dev" : {}
+}

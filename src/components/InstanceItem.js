@@ -73,6 +73,7 @@ function InstanceItem(props) {
   const [instances, setInstances] = useState(props.instances);
   const [lastInstanceId, setLastInstanceId] = useState();
   const [withDeviceContext, setWithDeviceContext] = useState("");
+  const [disableRemoveBtn, setDisableRemoveBtn] = useState(false);
 
   useEffect(() => {
     setWithDeviceContext("DeviceContext" in instances[0]);
@@ -87,20 +88,25 @@ function InstanceItem(props) {
   }, [instances,active]);
 
   const handleSwitch = () => setActive(!active);
+
   const handleRemoveInstance = () => {
     const updatdedInstances = [...instances];
     updatdedInstances.pop();
+    setDisableRemoveBtn(updatdedInstances.length === 1);
     setLastInstanceId(lastInstanceId - 1);
     setInstances( updatdedInstances);
   };
 
   const handleAddInstance = () => {
     let newInstance = {};
+    console.log(props);
     newInstance["instance_id"] = lastInstanceId + 1;
     if (withDeviceContext) {
-      newInstance["DeviceContext"] = { device_id: 0, device_type: "GPU" };
+      const device_type = props.framework2 === 'TRT' ? 'GPU' : props.openVinoType === '_OPENVINO_CPU_' ? 'CPU' : 'IntelGPU' ;
+      newInstance["DeviceContext"] = { device_id: 0, device_type: device_type };
     }
     const updatdedInstances = [...instances, newInstance];
+    setDisableRemoveBtn(!(updatdedInstances.length !== 1));
     setInstances(updatdedInstances);
     setLastInstanceId(lastInstanceId + 1);
     updateInstances();
@@ -143,7 +149,7 @@ function InstanceItem(props) {
         <AccordionDetails>
         <div className={classes.instanceDiv}>
           <Button variant="outlined" color="primary" onClick={handleAddInstance}>Add Instate</Button>
-          <Button variant="outlined" color="secondary" onClick={handleRemoveInstance}>Remove Instate</Button>
+          <Button disabled={disableRemoveBtn} variant="outlined" color="secondary" onClick={handleRemoveInstance}>Remove Instate</Button>
           <h1></h1>
           {instances != null
             ? instances.map((i, index) =>
@@ -166,7 +172,7 @@ function InstanceItem(props) {
                 )
               )
             : null}
-          <Button onClick={() => console.log(instances)}>test instances</Button>
+          <Button onClick={() => props.testState()}>test instances</Button>
           </div>
         </AccordionDetails>
       </Accordion>
@@ -181,11 +187,14 @@ const setChange = (path,change) => ({
 
 const mapStateToProps = (state) => ({
   gpu: state.sysInfo.gpuCount,
-});
+  openVinoType : state.sysInfo.openVinoType,
+  framework2: state.sysInfo.framework,
+  });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     setChange: (path,change) => dispatch(setChange(path,change)),
+    testState : () => dispatch({type:'TEST_STATE'}),
   };
 };
 

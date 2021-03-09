@@ -1,0 +1,46 @@
+{
+    "_id" : "_MASK_",
+    "sc" : {
+        "Services" : {
+            "StreamFaceDetector" : {
+                "threshold" : 0.2
+            },
+            "FeaturesDecision" : {
+                "mask_detect" : {
+                    "certainty_min_crop_size_px" : 80,
+                    "threshold" : 0.85
+                }
+            },
+            "EventLogic" : {
+                "min_num_faces_for_sending_events" : 2,
+                "mask_detect" : {
+                    "time_limit" : 2.0,
+                    "yaw_accept_limit" : 75.0,
+                    "pitch_accept_limit" : null,
+                    "min_quality_faces" : 2,
+                    "consecutive_faces" : true
+                }
+            },
+            "POIDBManager" : {
+                "min_face_score_add" : 80,
+                "max_yaw_add" : 65
+            },
+            "RecognitionManager" : {
+                "min_face_score" : 80
+            },
+            "Tracker" : {
+                "min_face_score_new_tracker" : 80,
+                "MatchingTracker" : {
+                    "min_face_score" : 80
+                }
+            },
+            "HistoryWorker" : {
+                "min_face_score_search" : 80,
+                "min_confidence" : 75.0,
+                "min_face_score_add" : 80
+            }
+        }
+    },
+    "ui" : {},
+    "dev" : {}
+}

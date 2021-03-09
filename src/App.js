@@ -5,6 +5,12 @@ import InitSettings from "./components/InitSettings";
 import SetUpServices from "./components/SetUpServices";
 import Summary from "./components/Summary";
 import Grid from "@material-ui/core/Grid";
+import _ from "lodash";
+import { connect } from "react-redux";
+
+
+
+
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -21,8 +27,19 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
+
+function test () {
+  const initConfig = require("./configs/default_config_0.20.0_trt.json");
+  const changes = require("./configs/openVino_config.json");
+  const newConfig = Object.assign({}, initConfig, changes);
+  console.log(newConfig);
+  console.log(_.merge(initConfig, changes));
+
+}
+
 function App(props) {
   const classes = useStyles();
+  test();
   return (
     <div className="App">
       <CssBaseline />
@@ -32,12 +49,16 @@ function App(props) {
           <Paper className={classes.paper}>
             <InitSettings />
           </Paper>
-          <Paper className={classes.paper}>
+          { Object.keys(props.initialConfiguration).length !== 0 &&
+            <Paper className={classes.paper}>
             <SetUpServices />
           </Paper>
-          <Paper className={classes.paper}>
-            <Summary />
-          </Paper>
+          }
+          { Object.keys(props.newConfiguration).length !== 0 &&
+            <Paper className={classes.paper}>
+              <Summary />
+            </Paper>
+          }
         </Grid>
         <Grid item xs={2}></Grid>
       </Grid>
@@ -45,4 +66,12 @@ function App(props) {
   );
 }
 
-export default App;
+const mapStateToProps = function (state) {
+  return {
+    initialConfiguration : state.sysInfo.initialConfiguration,
+    newConfiguration: state.sysInfo.configurationChanges,
+  };
+};
+
+
+export default connect(mapStateToProps)(App);

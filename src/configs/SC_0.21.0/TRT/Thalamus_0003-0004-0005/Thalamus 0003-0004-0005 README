@@ -1,0 +1,8 @@
+Thalamus 0003/0004/0005 README
+
+When Thalamus model 0003/0004/0005 is implemented, it is important to make sure that the recommended configuration changes are implemented in the config override. By implementing those changes the following predefined configurations are not needed:
+
+- MASKS
+
+
+For models 0004/0005 - The GPU memory an indexer instance require is higher. please review nvidia-smi and if needed, remove one indexer instance so the system won't get out of GPU memory.
