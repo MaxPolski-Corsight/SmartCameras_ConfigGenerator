@@ -58,6 +58,7 @@ const sysInfo = (state = sysInfoInitState, action) => {
       let newChanges = {};
       let initialConfiguration =  require(`./configs/${state.scVersion}/default_config.json`);
       if (state.precision === 'fp32' && state.framework !== 'OpenVino'){
+        console.log('what???');
         _.set(newChanges,['Services', 'Indexer','precision'],'fp32');
         _.set(newChanges,['Services', 'Indexer', 'lm_detector','precision'],'fp32');
         _.set(newChanges,['Services', 'StreamFaceDetector','precision'],'fp32');
@@ -76,7 +77,7 @@ const sysInfo = (state = sysInfoInitState, action) => {
         return {
           ...state,
           initialConfiguration: initialConfiguration,
-          configurationChanges : {}
+          configurationChanges : openVinoChanges['sc']
         };   
       }
       else {

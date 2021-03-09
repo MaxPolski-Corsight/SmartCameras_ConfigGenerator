@@ -1,4 +1,4 @@
-export const SC_VERSIONS = [{name:'smart-camera-0.18.1', folderName:'SC_0.18.1'},
+export const SC_VERSIONS = [
                             {name:'smart-camera-0.19.1', folderName:'SC_0.19.1'},
                             {name:'smart-camera-0.20.0', folderName:'SC_0.20.0'},
                             {name:'smart-camera-0.21.0', folderName:'SC_0.21.0'}];
