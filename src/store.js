@@ -58,7 +58,6 @@ const sysInfo = (state = sysInfoInitState, action) => {
       let newChanges = {};
       let initialConfiguration =  require(`./configs/${state.scVersion}/default_config.json`);
       if (state.precision === 'fp32' && state.framework !== 'OpenVino'){
-        console.log('what???');
         _.set(newChanges,['Services', 'Indexer','precision'],'fp32');
         _.set(newChanges,['Services', 'Indexer', 'lm_detector','precision'],'fp32');
         _.set(newChanges,['Services', 'StreamFaceDetector','precision'],'fp32');
@@ -77,7 +76,8 @@ const sysInfo = (state = sysInfoInitState, action) => {
         return {
           ...state,
           initialConfiguration: initialConfiguration,
-          configurationChanges : openVinoChanges['sc']
+          configurationChanges : openVinoChanges['sc'],
+          gpuCount : 1,
         };   
       }
       else {
@@ -99,7 +99,6 @@ const sysInfo = (state = sysInfoInitState, action) => {
         configurationChanges: action.payload.newConfig,
       };
     case "ADD_CHANGES":
-      console.log('work?');
       const temp_changes = _.set(
         state.configurationChanges,
         action.payload.path,
@@ -121,7 +120,7 @@ const sysInfo = (state = sysInfoInitState, action) => {
 const configurationInitState = {
 };
 
-const configurationChanges = (state = configurationInitState, action) => {
+const configurationChanges4 = (state = configurationInitState, action) => {
   switch (action.type) {
     default:
       return state;
@@ -130,7 +129,7 @@ const configurationChanges = (state = configurationInitState, action) => {
 
 const appStore = combineReducers({
   sysInfo,
-  configurationChanges,
+  configurationChanges4,
 });
 
 export const store = createStore(appStore);

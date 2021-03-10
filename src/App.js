@@ -44,7 +44,7 @@ function App(props) {
             <SetUpServices />
           </Paper>
           }
-          { Object.keys(props.newConfiguration).length !== 0 &&
+          { Object.keys(props.initialConfiguration).length !== 0 &&
             <Paper className={classes.paper}>
               <Summary />
             </Paper>

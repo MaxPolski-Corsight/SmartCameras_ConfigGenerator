@@ -24,7 +24,6 @@ function gcd_two_numbers(x, y) {
 
 
 const Summary = (props) => {
-    //const IndexerInstancesNumber = props.configuration.['INSTANCES']['instances'].length;
     const FinalConfig = {
         '_id' : props.configurationName,
         'sc' : props.newConfiguration,
@@ -33,6 +32,8 @@ const Summary = (props) => {
         }
     }
   const DataFromConfig = JSON.stringify(FinalConfig, null, 4);
+
+  console.log(props.newConfiguration);
   return (
     <div>{
       <CopyBlock
